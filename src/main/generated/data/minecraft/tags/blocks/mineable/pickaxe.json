@@ -34,6 +34,8 @@
     "decoration:red_concrete_vertical_slab",
     "decoration:black_concrete_vertical_slab",
     "decoration:platform_1",
-    "decoration:platform_2"
+    "decoration:platform_2",
+    "decoration:pantograph",
+    "decoration:wire_pole"
   ]
 }

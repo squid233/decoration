@@ -21,6 +21,7 @@
   "block.decoration.magenta_concrete_vertical_slab": "品红色混凝土竖直台阶",
   "block.decoration.orange_concrete_slab": "橙色混凝土台阶",
   "block.decoration.orange_concrete_vertical_slab": "橙色混凝土竖直台阶",
+  "block.decoration.pantograph": "受电弓",
   "block.decoration.pink_concrete_slab": "粉色混凝土台阶",
   "block.decoration.pink_concrete_vertical_slab": "粉色混凝土竖直台阶",
   "block.decoration.platform_1": "站台（白线）",
@@ -31,6 +32,7 @@
   "block.decoration.red_concrete_vertical_slab": "红色混凝土竖直台阶",
   "block.decoration.white_concrete_slab": "白色混凝土台阶",
   "block.decoration.white_concrete_vertical_slab": "白色混凝土竖直台阶",
+  "block.decoration.wire_pole": "电线杆",
   "block.decoration.yellow_concrete_slab": "黄色混凝土台阶",
   "block.decoration.yellow_concrete_vertical_slab": "黄色混凝土竖直台阶",
   "itemGroup.decoration.decoration": "装饰"

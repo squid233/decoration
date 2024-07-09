@@ -21,6 +21,7 @@
   "block.decoration.magenta_concrete_vertical_slab": "Magenta concrete vertical slab",
   "block.decoration.orange_concrete_slab": "Orange concrete slab",
   "block.decoration.orange_concrete_vertical_slab": "Orange concrete vertical slab",
+  "block.decoration.pantograph": "Pantograph",
   "block.decoration.pink_concrete_slab": "Pink concrete slab",
   "block.decoration.pink_concrete_vertical_slab": "Pink concrete vertical slab",
   "block.decoration.platform_1": "Platform (with white line)",
@@ -31,6 +32,7 @@
   "block.decoration.red_concrete_vertical_slab": "Red concrete vertical slab",
   "block.decoration.white_concrete_slab": "White concrete slab",
   "block.decoration.white_concrete_vertical_slab": "White concrete vertical slab",
+  "block.decoration.wire_pole": "Wire pole",
   "block.decoration.yellow_concrete_slab": "Yellow concrete slab",
   "block.decoration.yellow_concrete_vertical_slab": "Yellow concrete vertical slab",
   "itemGroup.decoration.decoration": "Decoration"

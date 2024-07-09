@@ -1,4 +1,5 @@
-// 1.20.1	2024-07-09T19:58:26.4501311	Decoration/Block Loot Tables
+// 1.20.1	2024-07-10T00:01:37.3250818	Decoration/Block Loot Tables
+590a82cf6e93813909c81b5395a2f3cc45ce6175 data\decoration\loot_tables\blocks\wire_pole.json
 20aeb4c53a6aeaf89bea2cc9cf133d1d699f4697 data\decoration\loot_tables\blocks\light_gray_concrete_vertical_slab.json
 02c138a03c652e3346bea21fe709822113e8c2d0 data\decoration\loot_tables\blocks\white_concrete_vertical_slab.json
 b1160ed81103db5deb08a8451d332728dcbeeb61 data\decoration\loot_tables\blocks\pink_concrete_slab.json
@@ -14,6 +15,7 @@ a379b68ef9913773e870f3c6edbc66e615dd596a data\decoration\loot_tables\blocks\lime
 f2f69d62e2ddf40009acc8fecc1a351b84400a43 data\decoration\loot_tables\blocks\blue_concrete_vertical_slab.json
 7b7c011e55f46f763b00af34af976c568a5baebb data\decoration\loot_tables\blocks\green_concrete_slab.json
 0917c3a63052c601d90e57bd685a012e8c1880aa data\decoration\loot_tables\blocks\brown_concrete_vertical_slab.json
+29ac54e20791438c97b754e9276925b23aeb9ed8 data\decoration\loot_tables\blocks\pantograph.json
 ec88f5f0c27cc128db8c1e3a248c1efd930325d7 data\decoration\loot_tables\blocks\lime_concrete_vertical_slab.json
 557ec54995020a4bd9bce63f989810ae83b52e48 data\decoration\loot_tables\blocks\light_blue_concrete_slab.json
 3b32461244694cf02ac5525727a5e2b8aa49cc8c data\decoration\loot_tables\blocks\light_blue_concrete_vertical_slab.json

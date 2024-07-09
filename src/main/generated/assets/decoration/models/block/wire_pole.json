@@ -1,0 +1,6 @@
+{
+  "parent": "decoration:block/wire_pole_base",
+  "textures": {
+    "all": "minecraft:block/light_gray_concrete"
+  }
+}

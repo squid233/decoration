@@ -87,6 +87,8 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.PLATFORM_1, "Platform (with white line)");
             add(builder, ModItems.PLATFORM_2, "Platform");
+            add(builder, ModItems.PANTOGRAPH, "Pantograph");
+            add(builder, ModItems.WIRE_POLE, "Wire pole");
 
             super.generateTranslations(builder);
         }
@@ -137,6 +139,8 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.PLATFORM_1, "站台（白线）");
             add(builder, ModItems.PLATFORM_2, "站台");
+            add(builder, ModItems.PANTOGRAPH, "受电弓");
+            add(builder, ModItems.WIRE_POLE, "电线杆");
 
             super.generateTranslations(builder);
         }

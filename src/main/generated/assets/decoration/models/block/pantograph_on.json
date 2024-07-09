@@ -1,0 +1,6 @@
+{
+  "parent": "decoration:block/pantograph_on_base",
+  "textures": {
+    "all": "decoration:block/pantograph"
+  }
+}

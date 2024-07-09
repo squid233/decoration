@@ -54,6 +54,8 @@ public enum ModItems implements ModItemConvertible {
     BLACK_CONCRETE_VERTICAL_SLAB(ModVerticalSlabs.BLACK_CONCRETE_VERTICAL_SLAB),
     PLATFORM_1(ModBlocks.PLATFORM_1),
     PLATFORM_2(ModBlocks.PLATFORM_2),
+    PANTOGRAPH(ModBlocks.PANTOGRAPH),
+    WIRE_POLE(ModBlocks.WIRE_POLE),
     ;
 
     public static final List<ModItems> LIST = List.of(values());
