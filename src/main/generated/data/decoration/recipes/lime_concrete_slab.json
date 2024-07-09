@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "item": "minecraft:lime_concrete"
+    }
+  },
+  "pattern": [
+    "sss"
+  ],
+  "result": {
+    "item": "decoration:lime_concrete_slab"
+  },
+  "show_notification": true
+}

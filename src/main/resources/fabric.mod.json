@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "decoration",
+  "version": "${version}",
+  "name": "Decoration",
+  "description": "Add decorations.",
+  "authors": [
+    "squid233"
+  ],
+  "contact": {
+    "repo": "https://github.com/squid233/decoration"
+  },
+  "license": "MIT",
+  "icon": "assets/decoration/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "io.github.squid233.decoration.data.DecorationDataGenerator"
+    ],
+    "client": [
+      "io.github.squid233.decoration.client.DecorationClient"
+    ],
+    "main": [
+      "io.github.squid233.decoration.Decoration"
+    ]
+  },
+  "mixins": [
+    "decoration.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

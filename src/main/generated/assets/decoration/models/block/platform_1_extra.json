@@ -1,0 +1,6 @@
+{
+  "parent": "decoration:block/platform_1_extra_base",
+  "textures": {
+    "all": "minecraft:block/white_concrete"
+  }
+}

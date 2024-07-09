@@ -1,0 +1,6 @@
+{
+  "parent": "decoration:block/vertical_slab_base",
+  "textures": {
+    "all": "minecraft:block/light_blue_concrete"
+  }
+}

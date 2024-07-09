@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "decoration:block/red_concrete_vertical_slab",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "decoration:block/red_concrete_vertical_slab"
+    },
+    "facing=south": {
+      "model": "decoration:block/red_concrete_vertical_slab",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "decoration:block/red_concrete_vertical_slab",
+      "y": 270
+    }
+  }
+}

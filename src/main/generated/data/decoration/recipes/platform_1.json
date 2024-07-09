@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:white_dye"
+    },
+    "b": {
+      "item": "minecraft:smooth_stone"
+    },
+    "c": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "pattern": [
+    "ac",
+    " b"
+  ],
+  "result": {
+    "item": "decoration:platform_1"
+  },
+  "show_notification": true
+}

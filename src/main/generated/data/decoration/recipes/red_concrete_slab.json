@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "item": "minecraft:red_concrete"
+    }
+  },
+  "pattern": [
+    "sss"
+  ],
+  "result": {
+    "item": "decoration:red_concrete_slab"
+  },
+  "show_notification": true
+}
