@@ -60,6 +60,8 @@ public enum ModItems implements ModItemConvertible {
     CATENARY_BI_POLE(ModBlocks.CATENARY_BI_POLE),
     CATENARY_POLE_EXTRA(ModBlocks.CATENARY_POLE_EXTRA),
     CATENARY_PART(ModBlocks.CATENARY_PART),
+    OVERHEAD_LINE(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, false)),
+    OVERHEAD_LINE_REMOVER(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, true)),
     ;
 
     public static final List<ModItems> LIST = List.of(values());

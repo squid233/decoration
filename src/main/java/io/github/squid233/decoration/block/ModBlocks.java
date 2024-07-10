@@ -23,7 +23,7 @@ public enum ModBlocks implements ModBlockConvertible {
     CATENARY_POLE(new CatenaryPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_BI_POLE(new CatenaryBiPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_POLE_EXTRA(new CatenaryPoleExtraBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
-    CATENARY_PART(new CatenaryPartBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE)))
+    CATENARY_PART(new CatenaryPartBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     ;
 
     public static final List<ModBlocks> LIST = List.of(values());

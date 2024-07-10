@@ -39,5 +39,10 @@
   "block.decoration.wire_pole": "电线杆",
   "block.decoration.yellow_concrete_slab": "黄色混凝土台阶",
   "block.decoration.yellow_concrete_vertical_slab": "黄色混凝土竖直台阶",
+  "item.decoration.overhead_line": "接触网",
+  "item.decoration.overhead_line_remover": "接触网（移除）",
+  "item.decoration.wire_item.connected": "已连接",
+  "item.decoration.wire_item.disconnected": "已断开连接",
+  "item.decoration.wire_item.tooltip": "连接：(%s, %s, %s)",
   "itemGroup.decoration.decoration": "装饰"
 }

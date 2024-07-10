@@ -2,6 +2,7 @@ package io.github.squid233.decoration.data;
 
 import io.github.squid233.decoration.Decoration;
 import io.github.squid233.decoration.block.*;
+import io.github.squid233.decoration.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
@@ -154,6 +155,8 @@ public final class ModelDataGenerator extends FabricModelProvider {
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+    public void generateItemModels(ItemModelGenerator generator) {
+        generator.register(ModItems.OVERHEAD_LINE.toItem(), Models.GENERATED);
+        generator.register(ModItems.OVERHEAD_LINE_REMOVER.toItem(), Models.GENERATED);
     }
 }

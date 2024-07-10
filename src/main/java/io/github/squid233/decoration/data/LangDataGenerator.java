@@ -5,6 +5,7 @@ import io.github.squid233.decoration.block.ModBlockConvertible;
 import io.github.squid233.decoration.item.ModItemConvertible;
 import io.github.squid233.decoration.item.ModItemGroups;
 import io.github.squid233.decoration.item.ModItems;
+import io.github.squid233.decoration.item.WireItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -94,6 +95,13 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.CATENARY_POLE_EXTRA, "Catenary pole (extra)");
             add(builder, ModItems.CATENARY_PART, "Catenary part");
 
+            add(builder, ModItems.OVERHEAD_LINE, "Catenary");
+            add(builder, ModItems.OVERHEAD_LINE_REMOVER, "Catenary remover");
+
+            builder.add(WireItem.TOOLTIP, "Connecting: (%s, %s, %s)");
+            builder.add(WireItem.WIRE_CONNECTED, "Connected");
+            builder.add(WireItem.WIRE_DISCONNECTED, "Disconnected");
+
             super.generateTranslations(builder);
         }
     }
@@ -149,6 +157,13 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.CATENARY_BI_POLE, "接触网柱（双向）");
             add(builder, ModItems.CATENARY_POLE_EXTRA, "接触网柱（延长）");
             add(builder, ModItems.CATENARY_PART, "接触网部件");
+
+            add(builder, ModItems.OVERHEAD_LINE, "接触网");
+            add(builder, ModItems.OVERHEAD_LINE_REMOVER, "接触网（移除）");
+
+            builder.add(WireItem.TOOLTIP, "连接：(%s, %s, %s)");
+            builder.add(WireItem.WIRE_CONNECTED, "已连接");
+            builder.add(WireItem.WIRE_DISCONNECTED, "已断开连接");
 
             super.generateTranslations(builder);
         }
