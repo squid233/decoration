@@ -63,6 +63,8 @@ public enum ModItems implements ModItemConvertible {
     CATENARY_PART(ModBlocks.CATENARY_PART),
     OVERHEAD_LINE(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, false)),
     OVERHEAD_LINE_REMOVER(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, true)),
+    WIRE(new WireItem(new Item.Settings().maxCount(1), WireType.WIRE, false)),
+    WIRE_REMOVER(new WireItem(new Item.Settings().maxCount(1), WireType.WIRE, true)),
     TRAFFIC_LIGHT_3(ModBlocks.TRAFFIC_LIGHT_3),
     ;
 

@@ -6,6 +6,7 @@ import io.github.squid233.decoration.item.ModItemConvertible;
 import io.github.squid233.decoration.item.ModItemGroups;
 import io.github.squid233.decoration.item.ModItems;
 import io.github.squid233.decoration.item.WireItem;
+import io.github.squid233.decoration.world.ModGameRules;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -98,12 +99,18 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.OVERHEAD_LINE, "Catenary");
             add(builder, ModItems.OVERHEAD_LINE_REMOVER, "Catenary remover");
+            add(builder, ModItems.WIRE, "Wire");
+            add(builder, ModItems.WIRE_REMOVER, "Wire remover");
 
             builder.add(WireItem.TOOLTIP, "Connecting: (%s, %s, %s)");
             builder.add(WireItem.WIRE_CONNECTED, "Connected");
             builder.add(WireItem.WIRE_DISCONNECTED, "Disconnected");
 
             add(builder, ModItems.TRAFFIC_LIGHT_3, "Traffic light (3 lights)");
+
+            builder.add(ModGameRules.TRAFFIC_LIGHT_RED_TICKS.getTranslationKey(), "Traffic red light ticks");
+            builder.add(ModGameRules.TRAFFIC_LIGHT_YELLOW_TICKS.getTranslationKey(), "Traffic yellow light ticks");
+            builder.add(ModGameRules.TRAFFIC_LIGHT_GREEN_TICKS.getTranslationKey(), "Traffic green light ticks");
 
             super.generateTranslations(builder);
         }
@@ -164,12 +171,18 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.OVERHEAD_LINE, "接触网");
             add(builder, ModItems.OVERHEAD_LINE_REMOVER, "接触网（移除）");
+            add(builder, ModItems.WIRE, "线缆");
+            add(builder, ModItems.WIRE_REMOVER, "线缆（移除）");
 
             builder.add(WireItem.TOOLTIP, "连接：(%s, %s, %s)");
             builder.add(WireItem.WIRE_CONNECTED, "已连接");
             builder.add(WireItem.WIRE_DISCONNECTED, "已断开连接");
 
-            add(builder, ModItems.TRAFFIC_LIGHT_3, "红绿灯（三灯）");
+            add(builder, ModItems.TRAFFIC_LIGHT_3, "交通灯（三灯）");
+
+            builder.add(ModGameRules.TRAFFIC_LIGHT_RED_TICKS.getTranslationKey(), "交通灯红灯时间（刻）");
+            builder.add(ModGameRules.TRAFFIC_LIGHT_YELLOW_TICKS.getTranslationKey(), "交通灯黄灯时间（刻）");
+            builder.add(ModGameRules.TRAFFIC_LIGHT_GREEN_TICKS.getTranslationKey(), "交通灯绿灯时间（刻）");
 
             super.generateTranslations(builder);
         }

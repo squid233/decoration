@@ -168,9 +168,15 @@ public final class ModelDataGenerator extends FabricModelProvider {
         registerTrafficLight(generator, ModBlocks.TRAFFIC_LIGHT_3);
     }
 
+    private static void registerGenerated(ItemModelGenerator generator, ModItems items) {
+        generator.register(items.toItem(), Models.GENERATED);
+    }
+
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
-        generator.register(ModItems.OVERHEAD_LINE.toItem(), Models.GENERATED);
-        generator.register(ModItems.OVERHEAD_LINE_REMOVER.toItem(), Models.GENERATED);
+        registerGenerated(generator, ModItems.OVERHEAD_LINE);
+        registerGenerated(generator, ModItems.OVERHEAD_LINE_REMOVER);
+        registerGenerated(generator, ModItems.WIRE);
+        registerGenerated(generator, ModItems.WIRE_REMOVER);
     }
 }

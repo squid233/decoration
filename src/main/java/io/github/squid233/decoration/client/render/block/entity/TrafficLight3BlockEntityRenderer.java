@@ -3,6 +3,7 @@ package io.github.squid233.decoration.client.render.block.entity;
 import io.github.squid233.decoration.block.ModBlocks;
 import io.github.squid233.decoration.block.TrafficLightBlock;
 import io.github.squid233.decoration.block.entity.TrafficLight3BlockEntity;
+import io.github.squid233.decoration.client.DecorationClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -24,19 +25,29 @@ import org.joml.Quaternionf;
  */
 @Environment(EnvType.CLIENT)
 public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<TrafficLight3BlockEntity> {
-    private static final long RED_LIGHT_TICKS = 20 * 3;
-    private static final long YELLOW_LIGHT_TICKS = 20 * 3;
-    private static final long GREEN_LIGHT_TICKS = 20 * 3;
     private static final float epsilon = 1.0e-4f;
     private static final Quaternionf QUAT = new Quaternionf();
-    private static final Color RED = new Color(255, 0, 0, 11f / 16);
-    private static final Color YELLOW = new Color(255, 216, 0, 6f / 16);
-    private static final Color GREEN = new Color(0, 255, 33, 1f / 16);
 
     public TrafficLight3BlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }
 
-    private record Color(int red, int green, int blue, float yOffset) {
+    private enum Color {
+        NONE(0, 0, 0, 0),
+        RED(255, 0, 0, 11f / 16),
+        YELLOW(255, 216, 0, 6f / 16),
+        GREEN(0, 255, 33, 1f / 16);
+
+        private final int red;
+        private final int green;
+        private final int blue;
+        private final float yOffset;
+
+        Color(int red, int green, int blue, float yOffset) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+            this.yOffset = yOffset;
+        }
     }
 
     @Override
@@ -54,7 +65,7 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
 
         final Direction direction = blockState.get(TrafficLightBlock.FACING);
 
-        final long time = world.getTime() % (RED_LIGHT_TICKS + YELLOW_LIGHT_TICKS * 2 + GREEN_LIGHT_TICKS);
+        final long time = world.getTime() % (DecorationClient.trafficLightRedTicks + DecorationClient.trafficLightYellowTicks * 2L + DecorationClient.trafficLightGreenTicks);
 
         matrices.push();
         matrices.translate(0.5f, 0.0f, 0.5f);
@@ -65,39 +76,42 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
         final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getDebugQuads());
 
         final Color color = determineColor(time, direction);
-        if (color != null) {
+        if (color != Color.NONE) {
             renderQuad(peek, buffer,
-                color.yOffset(),
-                color.yOffset() + (4f / 16),
-                color.red(), color.green(), color.blue());
+                color.yOffset,
+                color.yOffset + (4f / 16),
+                color.red, color.green, color.blue);
         }
 
         matrices.pop();
     }
 
     private static Color determineColor(long time, Direction direction) {
-        if (time < RED_LIGHT_TICKS) {
+        final int redTicks = DecorationClient.trafficLightRedTicks;
+        final int yellowTicks = DecorationClient.trafficLightYellowTicks;
+        final int greenTicks = DecorationClient.trafficLightGreenTicks;
+        if (time < redTicks) {
             if (direction.getAxis() == Direction.Axis.X) {
-                return RED;
+                return Color.RED;
             }
-            return GREEN;
+            return Color.GREEN;
         }
-        if (time < RED_LIGHT_TICKS + YELLOW_LIGHT_TICKS) {
+        if (time < redTicks + yellowTicks) {
             if (time % 20 < 10) {
-                return YELLOW;
+                return Color.YELLOW;
             }
-            return null;
+            return Color.NONE;
         }
-        if (time < RED_LIGHT_TICKS + YELLOW_LIGHT_TICKS + GREEN_LIGHT_TICKS) {
+        if (time < redTicks + yellowTicks + greenTicks) {
             if (direction.getAxis() == Direction.Axis.X) {
-                return GREEN;
+                return Color.GREEN;
             }
-            return RED;
+            return Color.RED;
         }
         if (time % 20 < 10) {
-            return YELLOW;
+            return Color.YELLOW;
         }
-        return null;
+        return Color.NONE;
     }
 
     private static void renderQuad(

@@ -12,7 +12,8 @@ import java.util.Map;
  * @since 0.1.0
  */
 public enum WireType implements StringIdentifiable {
-    OVERHEAD_LINE("overhead_line");
+    OVERHEAD_LINE("overhead_line"),
+    WIRE("wire");
 
     public static final List<WireType> LIST = List.of(values());
     private static final Map<String, WireType> MAP;

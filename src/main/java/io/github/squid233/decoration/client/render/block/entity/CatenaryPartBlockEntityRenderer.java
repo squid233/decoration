@@ -53,14 +53,14 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
         final var offset = getOffset(world, pos).toVector3f();
 
         for (CatenaryConnection connection : entity.connections()) {
+            final BlockPos target = connection.target();
+            final var targetOffset = getOffset(world, target)
+                .toVector3f()
+                .add(target.getX(), target.getY(), target.getZ())
+                .sub(pos.getX(), pos.getY(), pos.getZ());
+
             switch (connection.wireType()) {
                 case OVERHEAD_LINE -> {
-                    final BlockPos target = connection.target();
-                    final var targetOffset = getOffset(world, target)
-                        .toVector3f()
-                        .add(target.getX(), target.getY(), target.getZ())
-                        .sub(pos.getX(), pos.getY(), pos.getZ());
-
                     // contact wire
                     renderLine(
                         peek, buffer,
@@ -69,7 +69,7 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
                     );
 
                     // catenary wire
-                    renderCatenaryWire(peek, buffer, offset, targetOffset);
+                    renderCatenaryWire(peek, buffer, offset, targetOffset, 1.0f);
 
                     // droppers
                     final float distance = offset.distance(targetOffset);
@@ -85,6 +85,8 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
                         );
                     }
                 }
+                case WIRE ->
+                    renderCatenaryWire(peek, buffer, offset, targetOffset, 1f / 16); // we can use catenary wire
             }
         }
 
@@ -127,7 +129,8 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
         MatrixStack.Entry entry,
         VertexConsumer buffer,
         Vector3f offset,
-        Vector3f targetOffset
+        Vector3f targetOffset,
+        float yOffset
     ) {
         final float halfDistance = offset.distance(targetOffset) * 0.5f;
         for (int i = 0; i <= SEGMENTS; i++) {
@@ -141,8 +144,8 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
 
             renderLine(
                 entry, buffer,
-                start.x(), start.y() + 1.0f + fallFunction(startX, halfDistance), start.z(),
-                end.x(), end.y() + 1.0f + fallFunction(endX, halfDistance), end.z()
+                start.x(), start.y() + yOffset + fallFunction(startX, halfDistance), start.z(),
+                end.x(), end.y() + yOffset + fallFunction(endX, halfDistance), end.z()
             );
         }
     }
