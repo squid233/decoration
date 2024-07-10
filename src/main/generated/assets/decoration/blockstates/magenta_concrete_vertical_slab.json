@@ -2,17 +2,21 @@
   "variants": {
     "facing=east": {
       "model": "decoration:block/magenta_concrete_vertical_slab",
+      "uvlock": true,
       "y": 90
     },
     "facing=north": {
-      "model": "decoration:block/magenta_concrete_vertical_slab"
+      "model": "decoration:block/magenta_concrete_vertical_slab",
+      "uvlock": true
     },
     "facing=south": {
       "model": "decoration:block/magenta_concrete_vertical_slab",
+      "uvlock": true,
       "y": 180
     },
     "facing=west": {
       "model": "decoration:block/magenta_concrete_vertical_slab",
+      "uvlock": true,
       "y": 270
     }
   }

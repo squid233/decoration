@@ -36,6 +36,10 @@
     "decoration:platform_1",
     "decoration:platform_2",
     "decoration:pantograph",
-    "decoration:wire_pole"
+    "decoration:wire_pole",
+    "decoration:catenary_pole",
+    "decoration:catenary_bi_pole",
+    "decoration:catenary_pole_extra",
+    "decoration:catenary_part"
   ]
 }

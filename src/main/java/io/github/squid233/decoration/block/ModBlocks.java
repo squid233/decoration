@@ -20,6 +20,10 @@ public enum ModBlocks implements ModBlockConvertible {
     PLATFORM_2(new Block(AbstractBlock.Settings.copy(Blocks.SMOOTH_STONE))),
     PANTOGRAPH(new PantographBlock(AbstractBlock.Settings.copy(Blocks.SMOOTH_STONE).nonOpaque())),
     WIRE_POLE(new WirePoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    CATENARY_POLE(new CatenaryPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    CATENARY_BI_POLE(new CatenaryBiPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    CATENARY_POLE_EXTRA(new CatenaryPoleExtraBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    CATENARY_PART(new CatenaryPartBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE)))
     ;
 
     public static final List<ModBlocks> LIST = List.of(values());

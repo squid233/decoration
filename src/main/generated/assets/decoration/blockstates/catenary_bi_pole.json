@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "decoration:block/catenary_bi_pole",
+      "uvlock": true,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "decoration:block/catenary_bi_pole"
+    }
+  }
+}

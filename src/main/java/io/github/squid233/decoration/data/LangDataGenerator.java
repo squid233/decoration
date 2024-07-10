@@ -89,6 +89,10 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.PLATFORM_2, "Platform");
             add(builder, ModItems.PANTOGRAPH, "Pantograph");
             add(builder, ModItems.WIRE_POLE, "Wire pole");
+            add(builder, ModItems.CATENARY_POLE, "Catenary pole");
+            add(builder, ModItems.CATENARY_BI_POLE, "Catenary bi-pole");
+            add(builder, ModItems.CATENARY_POLE_EXTRA, "Catenary pole (extra)");
+            add(builder, ModItems.CATENARY_PART, "Catenary part");
 
             super.generateTranslations(builder);
         }
@@ -141,6 +145,10 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.PLATFORM_2, "站台");
             add(builder, ModItems.PANTOGRAPH, "受电弓");
             add(builder, ModItems.WIRE_POLE, "电线杆");
+            add(builder, ModItems.CATENARY_POLE, "接触网柱");
+            add(builder, ModItems.CATENARY_BI_POLE, "接触网柱（双向）");
+            add(builder, ModItems.CATENARY_POLE_EXTRA, "接触网柱（延长）");
+            add(builder, ModItems.CATENARY_PART, "接触网部件");
 
             super.generateTranslations(builder);
         }

@@ -56,15 +56,23 @@ public enum ModItems implements ModItemConvertible {
     PLATFORM_2(ModBlocks.PLATFORM_2),
     PANTOGRAPH(ModBlocks.PANTOGRAPH),
     WIRE_POLE(ModBlocks.WIRE_POLE),
+    CATENARY_POLE(ModBlocks.CATENARY_POLE),
+    CATENARY_BI_POLE(ModBlocks.CATENARY_BI_POLE),
+    CATENARY_POLE_EXTRA(ModBlocks.CATENARY_POLE_EXTRA),
+    CATENARY_PART(ModBlocks.CATENARY_PART),
     ;
 
     public static final List<ModItems> LIST = List.of(values());
     private final Item item;
     private final Identifier identifier;
 
-    ModItems(Block block) {
-        this.item = new BlockItem(block, new Item.Settings());
+    ModItems(Item item) {
+        this.item = item;
         this.identifier = new Identifier(Decoration.MOD_ID, name().toLowerCase(Locale.ROOT));
+    }
+
+    ModItems(Block block) {
+        this(new BlockItem(block, new Item.Settings()));
     }
 
     ModItems(ModBlockConvertible block) {

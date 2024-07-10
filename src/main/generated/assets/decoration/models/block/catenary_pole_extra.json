@@ -1,0 +1,6 @@
+{
+  "parent": "decoration:block/catenary_pole_extra_base",
+  "textures": {
+    "all": "minecraft:block/light_gray_concrete"
+  }
+}

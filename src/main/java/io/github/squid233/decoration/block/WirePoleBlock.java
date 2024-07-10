@@ -12,7 +12,7 @@ import net.minecraft.world.BlockView;
  * @since 0.1.0
  */
 public class WirePoleBlock extends Block {
-    private static final VoxelShape SHAPE = createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0);
+    public static final VoxelShape SHAPE = createCuboidShape(6.0, 0.0, 6.0, 10.0, 16.0, 10.0);
 
     public WirePoleBlock(Settings settings) {
         super(settings);
