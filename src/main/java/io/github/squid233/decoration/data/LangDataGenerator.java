@@ -92,6 +92,7 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.WIRE_POLE, "Wire pole");
             add(builder, ModItems.CATENARY_POLE, "Catenary pole");
             add(builder, ModItems.CATENARY_BI_POLE, "Catenary bi-pole");
+            add(builder, ModItems.CATENARY_CROSS_POLE, "Catenary pole (cross)");
             add(builder, ModItems.CATENARY_POLE_EXTRA, "Catenary pole (extra)");
             add(builder, ModItems.CATENARY_PART, "Catenary part");
 
@@ -101,6 +102,8 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             builder.add(WireItem.TOOLTIP, "Connecting: (%s, %s, %s)");
             builder.add(WireItem.WIRE_CONNECTED, "Connected");
             builder.add(WireItem.WIRE_DISCONNECTED, "Disconnected");
+
+            add(builder, ModItems.TRAFFIC_LIGHT_3, "Traffic light (3 lights)");
 
             super.generateTranslations(builder);
         }
@@ -155,6 +158,7 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             add(builder, ModItems.WIRE_POLE, "电线杆");
             add(builder, ModItems.CATENARY_POLE, "接触网柱");
             add(builder, ModItems.CATENARY_BI_POLE, "接触网柱（双向）");
+            add(builder, ModItems.CATENARY_CROSS_POLE, "接触网柱（交叉）");
             add(builder, ModItems.CATENARY_POLE_EXTRA, "接触网柱（延长）");
             add(builder, ModItems.CATENARY_PART, "接触网部件");
 
@@ -164,6 +168,8 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             builder.add(WireItem.TOOLTIP, "连接：(%s, %s, %s)");
             builder.add(WireItem.WIRE_CONNECTED, "已连接");
             builder.add(WireItem.WIRE_DISCONNECTED, "已断开连接");
+
+            add(builder, ModItems.TRAFFIC_LIGHT_3, "红绿灯（三灯）");
 
             super.generateTranslations(builder);
         }

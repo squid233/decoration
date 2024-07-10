@@ -29,7 +29,7 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
     private static final Vec3d CENTER = new Vec3d(0.5, -0.1875, 0.5);
     private static final Vector3f LERP = new Vector3f();
     private static final Vector3f LERP1 = new Vector3f();
-    private static final float FALL_FACTOR = 0.05f;
+    private static final float FALL = 0.07f;
     private static final int SEGMENTS = 8;
 
     public CatenaryPartBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
@@ -61,20 +61,6 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
                         .add(target.getX(), target.getY(), target.getZ())
                         .sub(pos.getX(), pos.getY(), pos.getZ());
 
-                    // start
-                    renderLine(
-                        peek, buffer,
-                        offset.x(), offset.y(), offset.z(),
-                        offset.x(), offset.y() + 1.0f, offset.z()
-                    );
-
-                    // end
-                    renderLine(
-                        peek, buffer,
-                        targetOffset.x(), targetOffset.y(), targetOffset.z(),
-                        targetOffset.x(), targetOffset.y() + 1.0f, targetOffset.z()
-                    );
-
                     // contact wire
                     renderLine(
                         peek, buffer,
@@ -87,14 +73,15 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
 
                     // droppers
                     final float distance = offset.distance(targetOffset);
+                    final float halfDistance = distance * 0.5f;
                     final int dropperCount = (int) (distance / 5.0);
-                    for (int i = 1; i <= dropperCount; i++) {
+                    for (int i = 0; i <= dropperCount; i++) {
                         final float percentage = (float) i / (dropperCount + 1);
                         final Vector3f v = offset.lerp(targetOffset, percentage, LERP);
                         renderLine(
                             peek, buffer,
                             v.x(), v.y(), v.z(),
-                            v.x(), v.y() + 1.0f + fallFunction(Math.lerp(-1.0f, 1.0f, percentage)), v.z()
+                            v.x(), v.y() + 1.0f + fallFunction(Math.lerp(-halfDistance, halfDistance, percentage), halfDistance), v.z()
                         );
                     }
                 }
@@ -142,26 +129,27 @@ public class CatenaryPartBlockEntityRenderer implements BlockEntityRenderer<Cate
         Vector3f offset,
         Vector3f targetOffset
     ) {
+        final float halfDistance = offset.distance(targetOffset) * 0.5f;
         for (int i = 0; i <= SEGMENTS; i++) {
             final float startPercentage = (float) i / (SEGMENTS + 1);
             final float endPercentage = (float) (i + 1) / (SEGMENTS + 1);
             final Vector3f start = offset.lerp(targetOffset, startPercentage, LERP);
             final Vector3f end = offset.lerp(targetOffset, endPercentage, LERP1);
 
-            // quadratic function
-            final float startX = Math.lerp(-1.0f, 1.0f, startPercentage);
-            final float endX = Math.lerp(-1.0f, 1.0f, endPercentage);
+            final float startX = Math.lerp(-halfDistance, halfDistance, startPercentage);
+            final float endX = Math.lerp(-halfDistance, halfDistance, endPercentage);
 
             renderLine(
                 entry, buffer,
-                start.x(), start.y() + 1.0f + fallFunction(startX), start.z(),
-                end.x(), end.y() + 1.0f + fallFunction(endX), end.z()
+                start.x(), start.y() + 1.0f + fallFunction(startX, halfDistance), start.z(),
+                end.x(), end.y() + 1.0f + fallFunction(endX, halfDistance), end.z()
             );
         }
     }
 
-    private static float fallFunction(float x) {
-        return FALL_FACTOR * (x * x - 1.0f);
+    private static float fallFunction(float x, float k) {
+        // quadratic function
+        return (x + k) * (x - k) * FALL / (k * k);
     }
 
     @Override

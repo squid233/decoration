@@ -43,7 +43,7 @@ public enum ModConcreteSlabs implements ModBlockConvertible {
     ModConcreteSlabs(Block concreteBlock) {
         this.concreteBlock = concreteBlock;
         this.slabBlock = new SlabBlock(AbstractBlock.Settings.copy(concreteBlock));
-        this.identifier = new Identifier(Decoration.MOD_ID, name().toLowerCase(Locale.ROOT));
+        this.identifier = Decoration.id(name().toLowerCase(Locale.ROOT));
     }
 
     public static void registerAll() {

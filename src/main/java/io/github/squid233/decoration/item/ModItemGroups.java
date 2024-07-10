@@ -9,14 +9,13 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 /**
  * @author squid233
  * @since 0.1.0
  */
 public final class ModItemGroups {
-    public static final RegistryKey<ItemGroup> DECORATION_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(Decoration.MOD_ID, "decoration"));
+    public static final RegistryKey<ItemGroup> DECORATION_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Decoration.id("decoration"));
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
         .icon(() -> new ItemStack(ModItems.LIGHT_BLUE_CONCRETE_SLAB.toItem()))
         .displayName(Text.translatable("itemGroup.decoration.decoration"))

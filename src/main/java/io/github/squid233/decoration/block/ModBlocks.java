@@ -18,12 +18,14 @@ import java.util.Locale;
 public enum ModBlocks implements ModBlockConvertible {
     PLATFORM_1(new PlatformBlock(AbstractBlock.Settings.copy(Blocks.SMOOTH_STONE))),
     PLATFORM_2(new Block(AbstractBlock.Settings.copy(Blocks.SMOOTH_STONE))),
-    PANTOGRAPH(new PantographBlock(AbstractBlock.Settings.copy(Blocks.SMOOTH_STONE).nonOpaque())),
+    PANTOGRAPH(new PantographBlock(AbstractBlock.Settings.copy(Blocks.BLACK_CONCRETE).nonOpaque())),
     WIRE_POLE(new WirePoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_POLE(new CatenaryPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_BI_POLE(new CatenaryBiPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    CATENARY_CROSS_POLE(new CatenaryCrossPoleBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE).nonOpaque())),
     CATENARY_POLE_EXTRA(new CatenaryPoleExtraBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_PART(new CatenaryPartBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
+    TRAFFIC_LIGHT_3(new TrafficLightBlock.Light3(AbstractBlock.Settings.copy(Blocks.BLACK_CONCRETE))),
     ;
 
     public static final List<ModBlocks> LIST = List.of(values());
@@ -32,7 +34,7 @@ public enum ModBlocks implements ModBlockConvertible {
 
     ModBlocks(Block block) {
         this.block = block;
-        this.identifier = new Identifier(Decoration.MOD_ID, name().toLowerCase(Locale.ROOT));
+        this.identifier = Decoration.id(name().toLowerCase(Locale.ROOT));
     }
 
     public static void registerAll() {

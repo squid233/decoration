@@ -39,7 +39,9 @@
     "decoration:wire_pole",
     "decoration:catenary_pole",
     "decoration:catenary_bi_pole",
+    "decoration:catenary_cross_pole",
     "decoration:catenary_pole_extra",
-    "decoration:catenary_part"
+    "decoration:catenary_part",
+    "decoration:traffic_light_3"
   ]
 }

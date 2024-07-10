@@ -22,6 +22,18 @@ public final class ModelDataGenerator extends FabricModelProvider {
         super(output);
     }
 
+    private static Model subModel(Block block, String suffix, TextureKey... keys) {
+        return new Model(
+            Optional.of(ModelIds.getBlockSubModelId(block, suffix)),
+            Optional.empty(),
+            keys
+        );
+    }
+
+    private static Model subModel(Block block, String suffix) {
+        return subModel(block, suffix, TextureKey.ALL);
+    }
+
     private static void registerConcreteSlab(BlockStateModelGenerator generator, ModConcreteSlabs slab) {
         final Block slabBlock = slab.toBlock();
         final TextureMap textureMap = TexturedModel.CUBE_ALL.get(slab.concreteBlock()).getTextures();
@@ -37,11 +49,7 @@ public final class ModelDataGenerator extends FabricModelProvider {
 
     private static void registerPlatform1(BlockStateModelGenerator generator) {
         final Block block = ModBlocks.PLATFORM_1.toBlock();
-        final Identifier extra = new Model(
-            Optional.of(ModelIds.getBlockSubModelId(block, "_extra_base")),
-            Optional.empty(),
-            TextureKey.ALL
-        ).upload(
+        final Identifier extra = subModel(block, "_extra_base").upload(
             ModelIds.getBlockSubModelId(block, "_extra"),
             TextureMap.all(Blocks.WHITE_CONCRETE),
             generator.modelCollector
@@ -81,7 +89,7 @@ public final class ModelDataGenerator extends FabricModelProvider {
         registerUVLockHorizontal(generator, block, TexturedModel.makeFactory(
             block1 -> TextureMap.all(slab.concreteBlock()),
             new Model(
-                Optional.of(new Identifier(Decoration.MOD_ID, "block/vertical_slab_base")),
+                Optional.of(Decoration.id("block/vertical_slab_base")),
                 Optional.empty(),
                 TextureKey.ALL
             )
@@ -90,9 +98,9 @@ public final class ModelDataGenerator extends FabricModelProvider {
 
     private static void registerPantograph(BlockStateModelGenerator generator) {
         final Block block = ModBlocks.PANTOGRAPH.toBlock();
-        final var onModel = new Model(Optional.of(ModelIds.getBlockSubModelId(block, "_on_base")), Optional.empty(), TextureKey.ALL)
+        final var onModel = subModel(block, "_on_base")
             .upload(block, "_on", TextureMap.all(block), generator.modelCollector);
-        final var offModel = new Model(Optional.of(ModelIds.getBlockSubModelId(block, "_off_base")), Optional.empty(), TextureKey.ALL)
+        final var offModel = subModel(block, "_off_base")
             .upload(block, "_off", TextureMap.all(block), generator.modelCollector);
         generator.blockStateCollector.accept(
             VariantsBlockStateSupplier.create(block)
@@ -110,30 +118,34 @@ public final class ModelDataGenerator extends FabricModelProvider {
         generator.registerItemModel(block.asItem());
     }
 
-    private static void registerWirePole(BlockStateModelGenerator generator) {
-        final Block block = ModBlocks.WIRE_POLE.toBlock();
-        generator.registerSingleton(block, TextureMap.all(Blocks.LIGHT_GRAY_CONCRETE), new Model(Optional.of(ModelIds.getBlockSubModelId(block, "_base")), Optional.empty(), TextureKey.ALL));
+    private static void registerSingletonLightGray(BlockStateModelGenerator generator, ModBlocks blocks) {
+        final Block block = blocks.toBlock();
+        generator.registerSingleton(block, TextureMap.all(Blocks.LIGHT_GRAY_CONCRETE), subModel(block, "_base"));
     }
 
     private static void registerCatenaryBlock(BlockStateModelGenerator generator, ModBlocks blocks) {
         final Block block = blocks.toBlock();
         registerUVLockHorizontal(generator, block, TexturedModel.makeFactory(
             block1 -> TextureMap.all(Blocks.LIGHT_GRAY_CONCRETE),
-            new Model(
-                Optional.of(ModelIds.getBlockSubModelId(block, "_base")),
-                Optional.empty(),
-                TextureKey.ALL
-            )
+            subModel(block, "_base")
         ));
     }
 
     private static void registerCatenaryHorizontalAxis(BlockStateModelGenerator generator, ModBlocks blocks) {
         final Block block = blocks.toBlock();
-        final Identifier base = new Model(Optional.of(ModelIds.getBlockSubModelId(block, "_base")), Optional.empty(), TextureKey.ALL)
+        final Identifier base = subModel(block, "_base")
             .upload(block, TextureMap.all(Blocks.LIGHT_GRAY_CONCRETE), generator.modelCollector);
         generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(BlockStateVariantMap.create(CatenaryBiPoleBlock.AXIS)
             .register(Direction.Axis.X, BlockStateVariant.create().put(VariantSettings.MODEL, base).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true))
             .register(Direction.Axis.Z, BlockStateVariant.create().put(VariantSettings.MODEL, base))));
+    }
+
+    private static void registerTrafficLight(BlockStateModelGenerator generator, ModBlocks blocks) {
+        final Block block = blocks.toBlock();
+        registerUVLockHorizontal(generator, block, TexturedModel.makeFactory(
+            block1 -> new TextureMap().put(TextureKey.ALL, Decoration.id("block/traffic_light")).put(TextureKey.SIDE, TextureMap.getId(Blocks.LIGHT_GRAY_CONCRETE)),
+            subModel(block, "_base", TextureKey.ALL, TextureKey.SIDE)
+        ));
     }
 
     @Override
@@ -147,11 +159,13 @@ public final class ModelDataGenerator extends FabricModelProvider {
         registerPlatform1(generator);
         registerPlatform2(generator);
         registerPantograph(generator);
-        registerWirePole(generator);
+        registerSingletonLightGray(generator, ModBlocks.WIRE_POLE);
         registerCatenaryBlock(generator, ModBlocks.CATENARY_POLE);
         registerCatenaryBlock(generator, ModBlocks.CATENARY_PART);
         registerCatenaryHorizontalAxis(generator, ModBlocks.CATENARY_POLE_EXTRA);
         registerCatenaryHorizontalAxis(generator, ModBlocks.CATENARY_BI_POLE);
+        registerSingletonLightGray(generator, ModBlocks.CATENARY_CROSS_POLE);
+        registerTrafficLight(generator, ModBlocks.TRAFFIC_LIGHT_3);
     }
 
     @Override

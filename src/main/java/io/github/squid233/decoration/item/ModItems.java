@@ -58,10 +58,12 @@ public enum ModItems implements ModItemConvertible {
     WIRE_POLE(ModBlocks.WIRE_POLE),
     CATENARY_POLE(ModBlocks.CATENARY_POLE),
     CATENARY_BI_POLE(ModBlocks.CATENARY_BI_POLE),
+    CATENARY_CROSS_POLE(ModBlocks.CATENARY_CROSS_POLE),
     CATENARY_POLE_EXTRA(ModBlocks.CATENARY_POLE_EXTRA),
     CATENARY_PART(ModBlocks.CATENARY_PART),
     OVERHEAD_LINE(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, false)),
     OVERHEAD_LINE_REMOVER(new WireItem(new Item.Settings().maxCount(1), WireType.OVERHEAD_LINE, true)),
+    TRAFFIC_LIGHT_3(ModBlocks.TRAFFIC_LIGHT_3),
     ;
 
     public static final List<ModItems> LIST = List.of(values());
@@ -70,7 +72,7 @@ public enum ModItems implements ModItemConvertible {
 
     ModItems(Item item) {
         this.item = item;
-        this.identifier = new Identifier(Decoration.MOD_ID, name().toLowerCase(Locale.ROOT));
+        this.identifier = Decoration.id(name().toLowerCase(Locale.ROOT));
     }
 
     ModItems(Block block) {
