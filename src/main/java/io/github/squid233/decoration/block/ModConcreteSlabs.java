@@ -4,7 +4,6 @@ import io.github.squid233.decoration.Decoration;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -42,7 +41,7 @@ public enum ModConcreteSlabs implements ModBlockConvertible {
 
     ModConcreteSlabs(Block concreteBlock) {
         this.concreteBlock = concreteBlock;
-        this.slabBlock = new SlabBlock(AbstractBlock.Settings.copy(concreteBlock));
+        this.slabBlock = new ConcreteSlabBlock(AbstractBlock.Settings.copy(concreteBlock));
         this.identifier = Decoration.id(name().toLowerCase(Locale.ROOT));
     }
 
