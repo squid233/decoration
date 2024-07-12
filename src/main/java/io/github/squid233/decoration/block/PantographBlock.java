@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -24,17 +25,17 @@ import org.jetbrains.annotations.Nullable;
  * @since 0.1.0
  */
 public class PantographBlock extends HorizontalFacingBlock {
-    public static final BooleanProperty ON = BooleanProperty.of("on");
+    public static final BooleanProperty OPEN = Properties.OPEN;
 
     public PantographBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(ON, false));
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(OPEN, false));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(FACING, ON);
+        builder.add(FACING, OPEN);
     }
 
     @Nullable
@@ -46,7 +47,7 @@ public class PantographBlock extends HorizontalFacingBlock {
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        world.setBlockState(pos, state.cycle(ON));
+        world.setBlockState(pos, state.cycle(OPEN));
         return ActionResult.SUCCESS;
     }
 

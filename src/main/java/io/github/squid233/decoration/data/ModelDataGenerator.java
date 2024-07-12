@@ -104,7 +104,7 @@ public final class ModelDataGenerator extends FabricModelProvider {
             .upload(block, "_off", TextureMap.all(block), generator.modelCollector);
         generator.blockStateCollector.accept(
             VariantsBlockStateSupplier.create(block)
-                .coordinate(BlockStateVariantMap.create(PantographBlock.FACING, PantographBlock.ON)
+                .coordinate(BlockStateVariantMap.create(PantographBlock.FACING, PantographBlock.OPEN)
                     .register((direction, on) -> BlockStateVariant.create().put(
                         VariantSettings.MODEL,
                         on ? onModel : offModel

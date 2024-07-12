@@ -16,6 +16,19 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+    maven { url = "https://maven.blamejared.com/" } // JEI
+    maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
+    maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+    maven { url = "https://api.modrinth.com/maven" } // LazyDFU
+    maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu
+    maven { url = "https://mvn.devos.one/snapshots/" } // Create, Porting Lib, Forge Tags, Milk Lib, Registrate
+    maven { url = "https://mvn.devos.one/releases/" } // Porting Lib Releases
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
+    maven { url = "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
+    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
+    maven { url = "https://maven.tterrag.com/" } // Flywheel
 }
 
 dependencies {
@@ -26,18 +39,31 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Create - dependencies are added transitively
+    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
+
+    // Development QOL
+    modLocalRuntime("maven.modrinth:lazydfu:${lazydfu_version}")
+    modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}")
+
+    // Recipe Viewers - Create Fabric supports JEI, REI, and EMI.
+    // See root gradle.properties to choose which to use at runtime.
+    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
+    def properties = [
+        "version"       : project.version,
+        "minecraft_version": project.minecraft_version,
+        "loader_version": project.loader_version,
+        "create_version": project.create_version
+    ]
+    inputs.properties properties
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+        expand properties
     }
 }
 
@@ -66,7 +92,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+        rename { "${it}_${project.archivesBaseName}" }
     }
 }
 
@@ -89,5 +115,7 @@ publishing {
 }
 
 fabricApi {
-    configureDataGeneration()
+    configureDataGeneration { dataGenerationSettings ->
+        dataGenerationSettings.modId = "decoration"
+    }
 }
