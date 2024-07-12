@@ -3,12 +3,13 @@
   "id": "decoration",
   "version": "${version}",
   "name": "Decoration",
-  "description": "Add decorations.",
+  "description": "Add decorations to Minecraft.",
   "authors": [
     "squid233"
   ],
   "contact": {
-    "repo": "https://github.com/squid233/decoration"
+    "issues": "https://github.com/squid233/decoration/issues",
+    "sources": "https://github.com/squid233/decoration"
   },
   "license": "MIT",
   "icon": "assets/decoration/icon.png",
@@ -34,5 +35,17 @@
   },
   "suggests": {
     "create": "${create_version}"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/decoration",
+        "modmenu.modrinth": "https://modrinth.com/project/decoration"
+      }
+    },
+    "mc-publish": {
+      "modrinth": "zREYLNDU",
+      "curseforge": 1062276
+    }
   }
 }
