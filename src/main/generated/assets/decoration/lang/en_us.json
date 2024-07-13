@@ -41,9 +41,6 @@
   "block.decoration.wire_pole": "Wire pole",
   "block.decoration.yellow_concrete_slab": "Yellow concrete slab",
   "block.decoration.yellow_concrete_vertical_slab": "Yellow concrete vertical slab",
-  "gamerule.trafficLightGreenTicks": "Traffic green light ticks",
-  "gamerule.trafficLightRedTicks": "Traffic red light ticks",
-  "gamerule.trafficLightYellowTicks": "Traffic yellow light ticks",
   "item.decoration.overhead_line": "Catenary",
   "item.decoration.overhead_line_remover": "Catenary remover",
   "item.decoration.wire": "Wire",
@@ -51,5 +48,10 @@
   "item.decoration.wire_item.disconnected": "Disconnected",
   "item.decoration.wire_item.tooltip": "Connecting: (%s, %s, %s)",
   "item.decoration.wire_remover": "Wire remover",
-  "itemGroup.decoration.decoration": "Decoration"
+  "itemGroup.decoration.decoration": "Decoration",
+  "text.decoration.screen.trafficLight": "Traffic light",
+  "text.decoration.screen.trafficLight.color": "Color",
+  "text.decoration.screen.trafficLight.flashing": "Flashing count",
+  "text.decoration.screen.trafficLight.index": "Index",
+  "text.decoration.screen.trafficLight.ticks": "Ticks"
 }

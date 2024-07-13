@@ -1,49 +1,31 @@
 package io.github.squid233.decoration.network;
 
 import io.github.squid233.decoration.Decoration;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import io.github.squid233.decoration.block.entity.TrafficLightBlockEntity;
+import io.github.squid233.decoration.block.entity.TrafficLightStep;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.GameRules;
+import net.minecraft.util.math.BlockPos;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author squid233
  * @since 0.1.0
  */
 public final class ModNetwork {
-    public static final Identifier TRAFFIC_LIGHT_RED_TICKS_PACKET = Decoration.id("traffic_light_red_ticks");
-    public static final Identifier TRAFFIC_LIGHT_YELLOW_TICKS_PACKET = Decoration.id("traffic_light_yellow_ticks");
-    public static final Identifier TRAFFIC_LIGHT_GREEN_TICKS_PACKET = Decoration.id("traffic_light_green_ticks");
+    public static final Identifier OPEN_TRAFFIC_LIGHT_SCREEN_PACKET = Decoration.id("open_traffic_light_screen");
+    public static final Identifier TRAFFIC_LIGHT_SAVE_PACKET = Decoration.id("traffic_light_save_packet");
 
-    public static void sendTrafficLight(ServerPlayerEntity player, GameRules.Key<GameRules.IntRule> key, Identifier identifier) {
-        final PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(player.getWorld().getGameRules().getInt(key));
-        ServerPlayNetworking.send(player, identifier, buf);
-    }
-
-    public static void sendTrafficLight(MinecraftServer server, GameRules.IntRule intRule, Identifier identifier) {
-        final PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(intRule.get());
-        final List<ServerPlayerEntity> list = server.getPlayerManager().getPlayerList();
-        for (ServerPlayerEntity player : list) {
-            ServerPlayNetworking.send(player, identifier, buf);
-        }
-    }
-
-    public static void sendTrafficLightRed(MinecraftServer server, GameRules.IntRule intRule) {
-        sendTrafficLight(server, intRule, TRAFFIC_LIGHT_RED_TICKS_PACKET);
-    }
-
-    public static void sendTrafficLightYellow(MinecraftServer server, GameRules.IntRule intRule) {
-        sendTrafficLight(server, intRule, TRAFFIC_LIGHT_YELLOW_TICKS_PACKET);
-    }
-
-    public static void sendTrafficLightGreen(MinecraftServer server, GameRules.IntRule intRule) {
-        sendTrafficLight(server, intRule, TRAFFIC_LIGHT_GREEN_TICKS_PACKET);
+    public static void registerAll() {
+        ServerPlayNetworking.registerGlobalReceiver(TRAFFIC_LIGHT_SAVE_PACKET, (server, player, handler, buf, responseSender) -> {
+            final BlockPos pos = buf.readBlockPos();
+            final var list = buf.readCollection(ArrayList::new, TrafficLightStep::readBuf);
+            server.execute(() -> {
+                if (player.getWorld().getBlockEntity(pos) instanceof TrafficLightBlockEntity blockEntity) {
+                    blockEntity.update(list);
+                }
+            });
+        });
     }
 }

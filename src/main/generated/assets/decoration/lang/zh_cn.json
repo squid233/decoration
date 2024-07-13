@@ -41,9 +41,6 @@
   "block.decoration.wire_pole": "电线杆",
   "block.decoration.yellow_concrete_slab": "黄色混凝土台阶",
   "block.decoration.yellow_concrete_vertical_slab": "黄色混凝土竖直台阶",
-  "gamerule.trafficLightGreenTicks": "交通灯绿灯时间（刻）",
-  "gamerule.trafficLightRedTicks": "交通灯红灯时间（刻）",
-  "gamerule.trafficLightYellowTicks": "交通灯黄灯时间（刻）",
   "item.decoration.overhead_line": "接触网",
   "item.decoration.overhead_line_remover": "接触网（移除）",
   "item.decoration.wire": "线缆",
@@ -51,5 +48,10 @@
   "item.decoration.wire_item.disconnected": "已断开连接",
   "item.decoration.wire_item.tooltip": "连接：(%s, %s, %s)",
   "item.decoration.wire_remover": "线缆（移除）",
-  "itemGroup.decoration.decoration": "装饰"
+  "itemGroup.decoration.decoration": "装饰",
+  "text.decoration.screen.trafficLight": "交通灯",
+  "text.decoration.screen.trafficLight.color": "颜色",
+  "text.decoration.screen.trafficLight.flashing": "闪烁次数",
+  "text.decoration.screen.trafficLight.index": "索引",
+  "text.decoration.screen.trafficLight.ticks": "时间（刻）"
 }

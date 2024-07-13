@@ -1,14 +1,25 @@
 package io.github.squid233.decoration.block;
 
-import io.github.squid233.decoration.block.entity.TrafficLight3BlockEntity;
+import io.github.squid233.decoration.block.entity.TrafficLightBlockEntity;
+import io.github.squid233.decoration.block.entity.TrafficLightStep;
+import io.github.squid233.decoration.network.ModNetwork;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -34,7 +45,7 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
         @Nullable
         @Override
         public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-            return new TrafficLight3BlockEntity(pos, state);
+            return new TrafficLightBlockEntity.Light3(pos, state);
         }
     }
 
@@ -61,8 +72,23 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean hasSidedTransparency(BlockState state) {
         return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!world.isClient &&
+            player instanceof ServerPlayerEntity serverPlayerEntity &&
+            world.getBlockEntity(pos) instanceof TrafficLightBlockEntity blockEntity) {
+            final PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeCollection(blockEntity.steps(), TrafficLightStep::writeBuf);
+            ServerPlayNetworking.send(serverPlayerEntity, ModNetwork.OPEN_TRAFFIC_LIGHT_SCREEN_PACKET, buf);
+        }
+        return ActionResult.SUCCESS;
     }
 }

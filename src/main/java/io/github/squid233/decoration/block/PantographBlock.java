@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PantographBlock extends HorizontalFacingBlock {
     public static final BooleanProperty OPEN = Properties.OPEN;
+    private static final VoxelShape SHAPE = createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
     public PantographBlock(Settings settings) {
         super(settings);
@@ -59,13 +60,13 @@ public class PantographBlock extends HorizontalFacingBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-        return 1.0f;
+    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.empty();
     }
 }

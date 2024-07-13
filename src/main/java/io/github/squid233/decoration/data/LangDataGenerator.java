@@ -6,7 +6,6 @@ import io.github.squid233.decoration.item.ModItemConvertible;
 import io.github.squid233.decoration.item.ModItemGroups;
 import io.github.squid233.decoration.item.ModItems;
 import io.github.squid233.decoration.item.WireItem;
-import io.github.squid233.decoration.world.ModGameRules;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -108,9 +107,11 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.TRAFFIC_LIGHT_3, "Traffic light (3 lights)");
 
-            builder.add(ModGameRules.TRAFFIC_LIGHT_RED_TICKS.getTranslationKey(), "Traffic red light ticks");
-            builder.add(ModGameRules.TRAFFIC_LIGHT_YELLOW_TICKS.getTranslationKey(), "Traffic yellow light ticks");
-            builder.add(ModGameRules.TRAFFIC_LIGHT_GREEN_TICKS.getTranslationKey(), "Traffic green light ticks");
+            builder.add("text.decoration.screen.trafficLight", "Traffic light");
+            builder.add("text.decoration.screen.trafficLight.color", "Color");
+            builder.add("text.decoration.screen.trafficLight.ticks", "Ticks");
+            builder.add("text.decoration.screen.trafficLight.index", "Index");
+            builder.add("text.decoration.screen.trafficLight.flashing", "Flashing count");
 
             super.generateTranslations(builder);
         }
@@ -180,9 +181,11 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
 
             add(builder, ModItems.TRAFFIC_LIGHT_3, "交通灯（三灯）");
 
-            builder.add(ModGameRules.TRAFFIC_LIGHT_RED_TICKS.getTranslationKey(), "交通灯红灯时间（刻）");
-            builder.add(ModGameRules.TRAFFIC_LIGHT_YELLOW_TICKS.getTranslationKey(), "交通灯黄灯时间（刻）");
-            builder.add(ModGameRules.TRAFFIC_LIGHT_GREEN_TICKS.getTranslationKey(), "交通灯绿灯时间（刻）");
+            builder.add("text.decoration.screen.trafficLight", "交通灯");
+            builder.add("text.decoration.screen.trafficLight.color", "颜色");
+            builder.add("text.decoration.screen.trafficLight.ticks", "时间（刻）");
+            builder.add("text.decoration.screen.trafficLight.index", "索引");
+            builder.add("text.decoration.screen.trafficLight.flashing", "闪烁次数");
 
             super.generateTranslations(builder);
         }
