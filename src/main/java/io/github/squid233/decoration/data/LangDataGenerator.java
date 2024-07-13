@@ -106,6 +106,7 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             builder.add(WireItem.WIRE_DISCONNECTED, "Disconnected");
 
             add(builder, ModItems.TRAFFIC_LIGHT_3, "Traffic light (3 lights)");
+            add(builder, ModItems.TRAFFIC_LIGHT_2, "Traffic light (2 lights)");
 
             builder.add("text.decoration.screen.trafficLight", "Traffic light");
             builder.add("text.decoration.screen.trafficLight.color", "Color");
@@ -180,6 +181,7 @@ public sealed class LangDataGenerator extends FabricLanguageProvider {
             builder.add(WireItem.WIRE_DISCONNECTED, "已断开连接");
 
             add(builder, ModItems.TRAFFIC_LIGHT_3, "交通灯（三灯）");
+            add(builder, ModItems.TRAFFIC_LIGHT_2, "交通灯（两灯）");
 
             builder.add("text.decoration.screen.trafficLight", "交通灯");
             builder.add("text.decoration.screen.trafficLight.color", "颜色");

@@ -32,6 +32,32 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
         public Light3(BlockPos pos, BlockState state) {
             super(ModBlockEntityTypes.TRAFFIC_LIGHT_3_BLOCK_ENTITY_TYPE, pos, state);
         }
+
+        @Override
+        public float lightSize() {
+            return 4f;
+        }
+
+        @Override
+        public float zOffset() {
+            return 6f;
+        }
+    }
+
+    public static class Light2 extends TrafficLightBlockEntity {
+        public Light2(BlockPos pos, BlockState state) {
+            super(ModBlockEntityTypes.TRAFFIC_LIGHT_2_BLOCK_ENTITY_TYPE, pos, state);
+        }
+
+        @Override
+        public float lightSize() {
+            return 8f;
+        }
+
+        @Override
+        public float zOffset() {
+            return 7f;
+        }
     }
 
     public void update(List<TrafficLightStep> steps) {
@@ -79,5 +105,13 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
 
     public List<TrafficLightStep> steps() {
         return steps;
+    }
+
+    public abstract float lightSize();
+
+    public abstract float zOffset();
+
+    public float computeYOffset(int index) {
+        return 1 + index * (lightSize() + 1);
     }
 }

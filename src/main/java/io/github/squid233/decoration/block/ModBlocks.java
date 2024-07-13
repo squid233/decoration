@@ -26,6 +26,7 @@ public enum ModBlocks implements ModBlockConvertible {
     CATENARY_POLE_EXTRA(new CatenaryPoleExtraBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     CATENARY_PART(new CatenaryPartBlock(AbstractBlock.Settings.copy(Blocks.LIGHT_GRAY_CONCRETE))),
     TRAFFIC_LIGHT_3(new TrafficLightBlock.Light3(AbstractBlock.Settings.copy(Blocks.BLACK_CONCRETE).luminance(value -> 3))),
+    TRAFFIC_LIGHT_2(new TrafficLightBlock.Light2(AbstractBlock.Settings.copy(TRAFFIC_LIGHT_3.toBlock()))),
     ;
 
     public static final List<ModBlocks> LIST = List.of(values());

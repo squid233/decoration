@@ -26,6 +26,7 @@ import java.util.*;
  */
 @Environment(EnvType.CLIENT)
 public class TrafficLightScreen extends Screen {
+    // TODO: 2024/7/14 squid233: narrator
     private static final String TITLE = "text.decoration.screen.trafficLight";
     private static final String COLOR = "text.decoration.screen.trafficLight.color";
     private static final String TICKS = "text.decoration.screen.trafficLight.ticks";

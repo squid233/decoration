@@ -1,6 +1,5 @@
 package io.github.squid233.decoration.client.render.block.entity;
 
-import io.github.squid233.decoration.block.ModBlocks;
 import io.github.squid233.decoration.block.TrafficLightBlock;
 import io.github.squid233.decoration.block.entity.TrafficLightBlockEntity;
 import io.github.squid233.decoration.block.entity.TrafficLightStep;
@@ -23,18 +22,18 @@ import java.util.List;
 
 /**
  * @author squid233
- * @since 0.1.0
+ * @since 0.2.0
  */
 @Environment(EnvType.CLIENT)
-public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<TrafficLightBlockEntity.Light3> {
+public class TrafficLightBlockEntityRenderer implements BlockEntityRenderer<TrafficLightBlockEntity> {
     private static final float epsilon = 1.0e-4f;
     private static final Quaternionf QUAT = new Quaternionf();
 
-    public TrafficLight3BlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+    public TrafficLightBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }
 
     @Override
-    public void render(TrafficLightBlockEntity.Light3 entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(TrafficLightBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         final World world = entity.getWorld();
         if (world == null) {
             return;
@@ -42,7 +41,7 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
 
         final BlockPos pos = entity.getPos();
         final BlockState blockState = world.getBlockState(pos);
-        if (!blockState.isOf(ModBlocks.TRAFFIC_LIGHT_3.toBlock())) {
+        if (!(blockState.getBlock() instanceof TrafficLightBlock)) {
             return;
         }
 
@@ -56,11 +55,12 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
 
         if (totalTicks > 0) {
             final long time = world.getTime() % totalTicks;
+            final float lightSize = entity.lightSize();
 
             matrices.push();
             matrices.translate(0.5f, 0.0f, 0.5f);
             matrices.multiply(QUAT.rotationY((float) Math.toRadians(-direction.asRotation())));
-            matrices.translate(-0.125f, 0.0f, -0.125f + epsilon);
+            matrices.translate(-lightSize * 0.5f / 16f, 0.0f, -(8f - entity.zOffset()) / 16 + epsilon);
             final MatrixStack.Entry peek = matrices.peek();
 
             final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getDebugQuads());
@@ -70,20 +70,16 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
             if (color.isColor()) {
                 final Integer colorValue = color.getColorValue();
                 if (colorValue != null) {
-                    final float yOffset = computeYOffset(step.index());
+                    final float yOffset = entity.computeYOffset(step.index()) / 16f;
                     renderQuad(peek, buffer,
+                        lightSize,
                         yOffset,
-                        yOffset + (4f / 16),
                         0xff000000 | colorValue);
                 }
             }
 
             matrices.pop();
         }
-    }
-
-    private static float computeYOffset(int index) {
-        return (1 + index * 5) / 16f;
     }
 
     private static TrafficLightStep determineStep(long time, List<TrafficLightStep> steps) {
@@ -109,14 +105,15 @@ public class TrafficLight3BlockEntityRenderer implements BlockEntityRenderer<Tra
     private static void renderQuad(
         MatrixStack.Entry entry,
         VertexConsumer buffer,
+        float size,
         float y0,
-        float y1,
         int colorValue
     ) {
+        final float scaled = size / 16f;
         final Matrix4f positionMatrix = entry.getPositionMatrix();
-        buffer.vertex(positionMatrix, 0.0f, y1, 0.0f).color(colorValue).next();
+        buffer.vertex(positionMatrix, 0.0f, y0 + scaled, 0.0f).color(colorValue).next();
         buffer.vertex(positionMatrix, 0.0f, y0, 0.0f).color(colorValue).next();
-        buffer.vertex(positionMatrix, 0.25f, y0, 0.0f).color(colorValue).next();
-        buffer.vertex(positionMatrix, 0.25f, y1, 0.0f).color(colorValue).next();
+        buffer.vertex(positionMatrix, scaled, y0, 0.0f).color(colorValue).next();
+        buffer.vertex(positionMatrix, scaled, y0 + scaled, 0.0f).color(colorValue).next();
     }
 }

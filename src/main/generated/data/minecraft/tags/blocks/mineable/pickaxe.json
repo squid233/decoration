@@ -42,6 +42,7 @@
     "decoration:catenary_cross_pole",
     "decoration:catenary_pole_extra",
     "decoration:catenary_part",
-    "decoration:traffic_light_3"
+    "decoration:traffic_light_3",
+    "decoration:traffic_light_2"
   ]
 }

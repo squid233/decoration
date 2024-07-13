@@ -66,6 +66,7 @@ public enum ModItems implements ModItemConvertible {
     WIRE(new WireItem(new Item.Settings().maxCount(1), WireType.WIRE, false)),
     WIRE_REMOVER(new WireItem(new Item.Settings().maxCount(1), WireType.WIRE, true)),
     TRAFFIC_LIGHT_3(ModBlocks.TRAFFIC_LIGHT_3),
+    TRAFFIC_LIGHT_2(ModBlocks.TRAFFIC_LIGHT_2),
     ;
 
     public static final List<ModItems> LIST = List.of(values());

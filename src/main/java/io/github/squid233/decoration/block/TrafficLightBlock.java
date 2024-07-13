@@ -27,17 +27,45 @@ import org.jetbrains.annotations.Nullable;
  * @since 0.1.0
  */
 public abstract class TrafficLightBlock extends HorizontalFacingBlock implements BlockEntityProvider {
-    private static final VoxelShape NORTH_SHAPE = createCuboidShape(5.0, 0.0, 8.0, 11.0, 16.0, 16.0);
-    private static final VoxelShape EAST_SHAPE = createCuboidShape(0.0, 0.0, 5.0, 8.0, 16.0, 11.0);
-    private static final VoxelShape SOUTH_SHAPE = createCuboidShape(5.0, 0.0, 0.0, 11.0, 16.0, 8.0);
-    private static final VoxelShape WEST_SHAPE = createCuboidShape(8.0, 0.0, 5.0, 16.0, 16.0, 11.0);
-
     protected TrafficLightBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 
+    public static class Light2 extends TrafficLightBlock {
+        private static final VoxelShape NORTH_SHAPE = createCuboidShape(3.0, 0.0, 7.0, 13.0, 16.0, 16.0);
+        private static final VoxelShape EAST_SHAPE = createCuboidShape(0.0, 0.0, 3.0, 9.0, 16.0, 13.0);
+        private static final VoxelShape SOUTH_SHAPE = createCuboidShape(3.0, 0.0, 0.0, 13.0, 16.0, 9.0);
+        private static final VoxelShape WEST_SHAPE = createCuboidShape(7.0, 0.0, 3.0, 16.0, 16.0, 13.0);
+
+        public Light2(Settings settings) {
+            super(settings);
+        }
+
+        @Nullable
+        @Override
+        public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+            return new TrafficLightBlockEntity.Light2(pos, state);
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+            return switch (state.get(FACING)) {
+                case DOWN, UP, NORTH -> NORTH_SHAPE;
+                case SOUTH -> SOUTH_SHAPE;
+                case WEST -> WEST_SHAPE;
+                case EAST -> EAST_SHAPE;
+            };
+        }
+    }
+
     public static class Light3 extends TrafficLightBlock {
+        private static final VoxelShape NORTH_SHAPE = createCuboidShape(5.0, 0.0, 8.0, 11.0, 16.0, 16.0);
+        private static final VoxelShape EAST_SHAPE = createCuboidShape(0.0, 0.0, 5.0, 8.0, 16.0, 11.0);
+        private static final VoxelShape SOUTH_SHAPE = createCuboidShape(5.0, 0.0, 0.0, 11.0, 16.0, 8.0);
+        private static final VoxelShape WEST_SHAPE = createCuboidShape(8.0, 0.0, 5.0, 16.0, 16.0, 11.0);
+
         public Light3(Settings settings) {
             super(settings);
         }
@@ -46,6 +74,17 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
         @Override
         public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
             return new TrafficLightBlockEntity.Light3(pos, state);
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+            return switch (state.get(FACING)) {
+                case DOWN, UP, NORTH -> NORTH_SHAPE;
+                case SOUTH -> SOUTH_SHAPE;
+                case WEST -> WEST_SHAPE;
+                case EAST -> EAST_SHAPE;
+            };
         }
     }
 
@@ -59,17 +98,6 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return switch (state.get(FACING)) {
-            case DOWN, UP, NORTH -> NORTH_SHAPE;
-            case SOUTH -> SOUTH_SHAPE;
-            case WEST -> WEST_SHAPE;
-            case EAST -> EAST_SHAPE;
-        };
     }
 
     @SuppressWarnings("deprecation")

@@ -166,6 +166,7 @@ public final class ModelDataGenerator extends FabricModelProvider {
         registerCatenaryHorizontalAxis(generator, ModBlocks.CATENARY_BI_POLE);
         registerSingletonLightGray(generator, ModBlocks.CATENARY_CROSS_POLE);
         registerTrafficLight(generator, ModBlocks.TRAFFIC_LIGHT_3);
+        registerTrafficLight(generator, ModBlocks.TRAFFIC_LIGHT_2);
     }
 
     private static void registerGenerated(ItemModelGenerator generator, ModItems items) {

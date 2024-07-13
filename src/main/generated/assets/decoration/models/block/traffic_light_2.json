@@ -1,0 +1,7 @@
+{
+  "parent": "decoration:block/traffic_light_2_base",
+  "textures": {
+    "all": "decoration:block/traffic_light",
+    "side": "minecraft:block/light_gray_concrete"
+  }
+}
