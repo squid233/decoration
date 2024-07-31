@@ -4,6 +4,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Formatting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author squid233
  * @since 0.2.0
@@ -45,5 +48,13 @@ public record TrafficLightStep(Formatting color, int ticks, int index, int flash
             buf.readInt(),
             buf.readInt()
         );
+    }
+
+    public static void writeList(PacketByteBuf buf, List<TrafficLightStep> steps) {
+        buf.writeCollection(steps, TrafficLightStep::writeBuf);
+    }
+
+    public static List<TrafficLightStep> readList(PacketByteBuf buf) {
+        return buf.readCollection(ArrayList::new, TrafficLightStep::readBuf);
     }
 }

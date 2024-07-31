@@ -29,8 +29,9 @@ public final class DecorationClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(ModNetwork.OPEN_TRAFFIC_LIGHT_SCREEN_PACKET, (client, handler, buf, responseSender) -> {
             final BlockPos pos = buf.readBlockPos();
-            final var list = buf.readCollection(ArrayList::new, TrafficLightStep::readBuf);
-            client.execute(() -> client.setScreen(new TrafficLightScreen(list, pos)));
+            final var list = buf.readCollection(ArrayList::new, TrafficLightStep::readList);
+            final int maxIndex = buf.readInt();
+            client.execute(() -> client.setScreen(new TrafficLightScreen(list, pos, maxIndex)));
         });
     }
 }

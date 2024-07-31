@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
 
@@ -32,17 +33,39 @@ public class TrafficLightScreen extends Screen {
     private static final String TICKS = "text.decoration.screen.trafficLight.ticks";
     private static final String INDEX = "text.decoration.screen.trafficLight.index";
     private static final String FLASHING = "text.decoration.screen.trafficLight.flashing";
-    private final List<TrafficLightStep> steps;
+    private final List<List<TrafficLightStep>> stepGroups;
     private StepListWidget listWidget;
     private final BlockPos pos;
+    private final int maxIndex;
 
-    public TrafficLightScreen(List<TrafficLightStep> steps, BlockPos pos) {
+    public TrafficLightScreen(List<List<TrafficLightStep>> stepGroups, BlockPos pos, int maxIndex) {
         super(Text.translatable(TITLE));
-        this.steps = List.copyOf(steps);
+        this.stepGroups = List.copyOf(stepGroups);
         this.pos = pos;
+        this.maxIndex = maxIndex;
     }
 
-    public class StepWidget extends ElementListWidget.Entry<StepWidget> {
+    public abstract static class StepListWidgetEntry extends ElementListWidget.Entry<StepListWidgetEntry> {
+    }
+
+    public static class StepGroupWidget extends StepListWidgetEntry {
+        @Override
+        public List<? extends Selectable> selectableChildren() {
+            return List.of();
+        }
+
+        @Override
+        public List<? extends Element> children() {
+            return List.of();
+        }
+
+        @Override
+        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+
+        }
+    }
+
+    public class StepWidget extends StepListWidgetEntry {
         private final List<ClickableWidget> children = new ArrayList<>();
         private final CyclingButtonWidget<Formatting> colorWidget;
         private final TextFieldWidget ticksWidget;
@@ -56,14 +79,10 @@ public class TrafficLightScreen extends Screen {
             this.colorWidget = CyclingButtonWidget.<Formatting>builder(formatting -> Text.literal(formatting.asString()))
                 .values(Arrays.stream(Formatting.values())
                     .filter(formatting -> formatting.isColor() || formatting == Formatting.RESET)
-                    .toList())
-                .initially(step.color())
+                    .toList()
+                ).initially(step.color())
                 .omitKeyText()
-                .build(0,
-                    0,
-                    75,
-                    20,
-                    Text.translatable(COLOR));
+                .build(0, 0, 75, 20, Text.translatable(COLOR));
 
             this.ticksWidget = new TextFieldWidget(TrafficLightScreen.this.textRenderer,
                 0,
@@ -163,25 +182,25 @@ public class TrafficLightScreen extends Screen {
 
         public TrafficLightStep toStep() {
             return new TrafficLightStep(colorWidget.getValue(),
-                parseInt(validateString(ticksWidget.getText())),
-                parseInt(validateString(indexWidget.getText())),
-                parseInt(validateString(flashingWidget.getText()))
+                Math.max(parseInt(validateString(ticksWidget.getText())), 0),
+                MathHelper.clamp(parseInt(validateString(indexWidget.getText())), 0, TrafficLightScreen.this.maxIndex),
+                Math.max(parseInt(validateString(flashingWidget.getText())), 0)
             );
         }
     }
 
-    public class StepListWidget extends ElementListWidget<StepWidget> {
+    public class StepListWidget extends ElementListWidget<StepListWidgetEntry> {
         public StepListWidget() {
             super(TrafficLightScreen.this.client, 0, 0, 0, 0, 24);
             setRenderBackground(false);
         }
 
-        public void addStep(TrafficLightStep step) {
-            addEntry(new StepWidget(step));
+        public void addGroup(List<TrafficLightStep> steps) {
+//            addEntry();
         }
 
         @Override
-        protected boolean removeEntryWithoutScrolling(StepWidget entry) {
+        protected boolean removeEntryWithoutScrolling(StepListWidgetEntry entry) {
             return super.removeEntryWithoutScrolling(entry);
         }
 
@@ -219,7 +238,7 @@ public class TrafficLightScreen extends Screen {
     protected void init() {
         super.init();
 
-        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> listWidget.addStep(TrafficLightStep.EMPTY))
+        addDrawableChild(ButtonWidget.builder(Text.literal("+"), button -> listWidget.addGroup(List.of()))
             .width(20)
             .position(width - 8 - 20, 6 + textRenderer.fontHeight + 6)
             .build());
@@ -228,8 +247,8 @@ public class TrafficLightScreen extends Screen {
         listWidget = new StepListWidget();
         listWidget.updateSize(width, height, 6 + textRenderer.fontHeight + 6 + 20 + 6, height - 32);
         if (previousList == null) {
-            for (TrafficLightStep step : steps) {
-                listWidget.addStep(step);
+            for (var steps : stepGroups) {
+                listWidget.addGroup(steps);
             }
         } else {
             listWidget.children().addAll(previousList.children());
@@ -244,7 +263,7 @@ public class TrafficLightScreen extends Screen {
                 final PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(pos);
                 buf.writeCollection(listWidget.children(), (buf1, stepWidget) ->
-                    TrafficLightStep.writeBuf(buf1, stepWidget.toStep()));
+                    TrafficLightStep.writeList(buf1, /*stepWidget.toStep()*/ List.of())); // TODO
                 ClientPlayNetworking.send(ModNetwork.TRAFFIC_LIGHT_SAVE_PACKET, buf);
                 close();
             })

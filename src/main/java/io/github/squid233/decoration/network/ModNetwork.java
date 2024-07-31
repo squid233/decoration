@@ -20,7 +20,7 @@ public final class ModNetwork {
     public static void registerAll() {
         ServerPlayNetworking.registerGlobalReceiver(TRAFFIC_LIGHT_SAVE_PACKET, (server, player, handler, buf, responseSender) -> {
             final BlockPos pos = buf.readBlockPos();
-            final var list = buf.readCollection(ArrayList::new, TrafficLightStep::readBuf);
+            final var list = buf.readCollection(ArrayList::new, TrafficLightStep::readList);
             server.execute(() -> {
                 if (player.getWorld().getBlockEntity(pos) instanceof TrafficLightBlockEntity blockEntity) {
                     blockEntity.update(list);

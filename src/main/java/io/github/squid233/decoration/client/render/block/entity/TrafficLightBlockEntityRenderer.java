@@ -18,8 +18,6 @@ import net.minecraft.world.World;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
-import java.util.List;
-
 /**
  * @author squid233
  * @since 0.2.0
@@ -65,7 +63,7 @@ public class TrafficLightBlockEntityRenderer implements BlockEntityRenderer<Traf
 
             final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getDebugQuads());
 
-            final var step = determineStep(time, steps);
+            final var step = TrafficLightBlockEntity.determineStep(time, steps, false);
             final var color = step.color();
             if (color.isColor()) {
                 final Integer colorValue = color.getColorValue();
@@ -80,26 +78,6 @@ public class TrafficLightBlockEntityRenderer implements BlockEntityRenderer<Traf
 
             matrices.pop();
         }
-    }
-
-    private static TrafficLightStep determineStep(long time, List<TrafficLightStep> steps) {
-        long ticks = 0;
-        for (TrafficLightStep step : steps) {
-            final int ticks1 = step.ticks();
-            if (ticks1 <= 0) {
-                continue;
-            }
-            ticks += ticks1;
-            if (time < ticks) {
-                final int flashing = step.flashing();
-                if (flashing == 0 ||
-                    time % ((double) ticks1 / flashing) < ticks1 * 0.5 / flashing) {
-                    return step;
-                }
-                return TrafficLightStep.EMPTY;
-            }
-        }
-        return TrafficLightStep.EMPTY;
     }
 
     private static void renderQuad(

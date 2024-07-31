@@ -88,6 +88,34 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
         }
     }
 
+    public static class Light4 extends TrafficLightBlock {
+        private static final VoxelShape NORTH_SHAPE = createCuboidShape(5.0, 0.0, 8.0, 11.0, 21.0, 16.0);
+        private static final VoxelShape EAST_SHAPE = createCuboidShape(0.0, 0.0, 5.0, 8.0, 21.0, 11.0);
+        private static final VoxelShape SOUTH_SHAPE = createCuboidShape(5.0, 0.0, 0.0, 11.0, 21.0, 8.0);
+        private static final VoxelShape WEST_SHAPE = createCuboidShape(8.0, 0.0, 5.0, 16.0, 21.0, 11.0);
+
+        public Light4(Settings settings) {
+            super(settings);
+        }
+
+        @Nullable
+        @Override
+        public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+            return new TrafficLightBlockEntity.Light4(pos, state);
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+            return switch (state.get(FACING)) {
+                case DOWN, UP, NORTH -> NORTH_SHAPE;
+                case SOUTH -> SOUTH_SHAPE;
+                case WEST -> WEST_SHAPE;
+                case EAST -> EAST_SHAPE;
+            };
+        }
+    }
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
@@ -114,9 +142,34 @@ public abstract class TrafficLightBlock extends HorizontalFacingBlock implements
             world.getBlockEntity(pos) instanceof TrafficLightBlockEntity blockEntity) {
             final PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(pos);
-            buf.writeCollection(blockEntity.steps(), TrafficLightStep::writeBuf);
+            buf.writeCollection(blockEntity.steps(), TrafficLightStep::writeList);
+            buf.writeInt(blockEntity.maxIndex());
             ServerPlayNetworking.send(serverPlayerEntity, ModNetwork.OPEN_TRAFFIC_LIGHT_SCREEN_PACKET, buf);
         }
         return ActionResult.SUCCESS;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof TrafficLightBlockEntity blockEntity) {
+            return TrafficLightBlockEntity.determineStep(world.getTime(), blockEntity.steps(), true).index() + 1;
+        }
+        return 0;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            world.updateComparators(pos, this);
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 }

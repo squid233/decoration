@@ -22,26 +22,10 @@ import java.util.List;
  */
 public abstract class TrafficLightBlockEntity extends BlockEntity {
     private static final String STEPS = "steps";
-    private final List<TrafficLightStep> steps = new ArrayList<>();
+    private final List<List<TrafficLightStep>> steps = new ArrayList<>();
 
     public TrafficLightBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-    }
-
-    public static class Light3 extends TrafficLightBlockEntity {
-        public Light3(BlockPos pos, BlockState state) {
-            super(ModBlockEntityTypes.TRAFFIC_LIGHT_3_BLOCK_ENTITY_TYPE, pos, state);
-        }
-
-        @Override
-        public float lightSize() {
-            return 4f;
-        }
-
-        @Override
-        public float zOffset() {
-            return 6f;
-        }
     }
 
     public static class Light2 extends TrafficLightBlockEntity {
@@ -50,17 +34,72 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
         }
 
         @Override
-        public float lightSize() {
-            return 8f;
+        public float computeYOffset(int index) {
+            return 6 + index * (lightSize() + 1);
         }
 
         @Override
-        public float zOffset() {
-            return 7f;
+        public int maxIndex() {
+            return 1;
         }
     }
 
-    public void update(List<TrafficLightStep> steps) {
+    public static class Light3 extends TrafficLightBlockEntity {
+        public Light3(BlockPos pos, BlockState state) {
+            super(ModBlockEntityTypes.TRAFFIC_LIGHT_3_BLOCK_ENTITY_TYPE, pos, state);
+        }
+
+        @Override
+        public float computeYOffset(int index) {
+            return 1 + index * (lightSize() + 1);
+        }
+
+        @Override
+        public int maxIndex() {
+            return 2;
+        }
+    }
+
+    public static class Light4 extends TrafficLightBlockEntity {
+        public Light4(BlockPos pos, BlockState state) {
+            super(ModBlockEntityTypes.TRAFFIC_LIGHT_4_BLOCK_ENTITY_TYPE, pos, state);
+        }
+
+        @Override
+        public float computeYOffset(int index) {
+            return 1 + index * (lightSize() + 1);
+        }
+
+        @Override
+        public int maxIndex() {
+            return 3;
+        }
+    }
+
+    public static TrafficLightStep determineStep(long time, List<TrafficLightStep> steps, boolean ignoreFlashing) {
+        long ticks = 0;
+        for (TrafficLightStep step : steps) {
+            final int ticks1 = step.ticks();
+            if (ticks1 <= 0) {
+                continue;
+            }
+            ticks += ticks1;
+            if (time < ticks) {
+                if (ignoreFlashing) {
+                    return step;
+                }
+                final int flashing = step.flashing();
+                if (flashing == 0 ||
+                    time % ((double) ticks1 / flashing) < ticks1 * 0.5 / flashing) {
+                    return step;
+                }
+                return TrafficLightStep.EMPTY;
+            }
+        }
+        return TrafficLightStep.EMPTY;
+    }
+
+    public void update(List<List<TrafficLightStep>> steps) {
         this.steps.clear();
         this.steps.addAll(steps);
         markDirty();
@@ -73,10 +112,14 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         final NbtList list = new NbtList();
-        for (TrafficLightStep step : steps) {
-            final NbtCompound compound = new NbtCompound();
-            step.writeNbt(compound);
-            list.add(compound);
+        for (var stepList : steps) {
+            final NbtList list1 = new NbtList();
+            for (TrafficLightStep step : stepList) {
+                final NbtCompound compound = new NbtCompound();
+                step.writeNbt(compound);
+                list1.add(compound);
+            }
+            list.add(list1);
         }
         nbt.put(STEPS, list);
     }
@@ -86,9 +129,14 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
         super.readNbt(nbt);
 
         steps.clear();
-        final NbtList list = nbt.getList(STEPS, NbtElement.COMPOUND_TYPE);
+        final NbtList list = nbt.getList(STEPS, NbtElement.LIST_TYPE);
         for (int i = 0, size = list.size(); i < size; i++) {
-            steps.add(TrafficLightStep.readNbt(list.getCompound(i)));
+            final List<TrafficLightStep> steps1 = new ArrayList<>(size);
+            final NbtList list1 = list.getList(i);
+            for (int j = 0, size1 = list1.size(); j < size1; j++) {
+                steps1.add(TrafficLightStep.readNbt(list1.getCompound(j)));
+            }
+            steps.add(steps1);
         }
     }
 
@@ -103,15 +151,19 @@ public abstract class TrafficLightBlockEntity extends BlockEntity {
         return createNbt();
     }
 
-    public List<TrafficLightStep> steps() {
+    public List<List<TrafficLightStep>> steps() {
         return steps;
     }
 
-    public abstract float lightSize();
-
-    public abstract float zOffset();
-
-    public float computeYOffset(int index) {
-        return 1 + index * (lightSize() + 1);
+    public float lightSize() {
+        return 4f;
     }
+
+    public float zOffset() {
+        return 6f;
+    }
+
+    public abstract float computeYOffset(int index);
+
+    public abstract int maxIndex();
 }
